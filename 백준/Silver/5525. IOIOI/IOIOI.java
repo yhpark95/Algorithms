@@ -8,20 +8,26 @@ public class Main {
 		int N = Integer.parseInt(br.readLine());
 		int M = Integer.parseInt(br.readLine());
 		String str = br.readLine();
-		StringBuilder sb = new StringBuilder();
-		sb.append("I");
-		for (int i = 0; i < N; i++) {
-			sb.append("OI");
-		}
-		String P = sb.toString();
 		int count = 0;
-		int a = P.length();
+		int plen = 2 * N + 1;
 		int b = str.length();
-		for (int i = 0; i <= b - a; i++) {
+		int index = 0;
+		for (int i = 0; i <= b - plen; i++) {
 			if (str.charAt(i) == 'I') {
-				String temp = str.substring(i, i + P.length());
-				if(temp.equals(P)){
+				boolean isMatch = true;
+				int temp = Math.max(i, index);
+				while (temp < i + plen - 1) {
+					if (!str.startsWith("OI", temp + 1)) {
+						isMatch = false;
+						break;
+					}
+					temp += 2;
+				}
+				if (isMatch) {
+					index = i + plen - 1;
 					count++;
+				} else {
+					i = temp;
 				}
 			}
 		}
